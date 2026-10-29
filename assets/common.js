@@ -40,6 +40,15 @@ function picture(src, alt, attrs = 'loading="lazy"') {
   return `<picture><source srcset="${esc(webp)}" type="image/webp"><img src="${esc(src)}" alt="${esc(alt)}" ${attrs}></picture>`;
 }
 
+// The shop's signature: gold gift box with a crown, used as the O in ROYAL
+function giftMark() {
+  return `<svg class="gm" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="gmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a0"/><stop offset=".45" stop-color="#e2b743"/><stop offset="1" stop-color="#9c7314"/></linearGradient></defs>
+    <path d="M20 32 L27 11 L39 24 L50 5 L61 24 L73 11 L80 32 Z" fill="url(#gmg)" stroke="#7a5a0c" stroke-width="2"/>
+    <rect x="12" y="34" width="76" height="17" rx="3.5" fill="url(#gmg)" stroke="#7a5a0c" stroke-width="2"/>
+    <rect x="18" y="51" width="64" height="42" rx="4" fill="url(#gmg)" stroke="#7a5a0c" stroke-width="2"/>
+    <rect x="44.5" y="34" width="11" height="59" fill="#fffaf0"/></svg>`;
+}
+
 function productCard(p, category, showCategory) {
   const msg = `Hello ${SHOP.name}, I am interested in: ${p.name}. ${new URL(p.image, location.href).href}`;
   return `<article class="product reveal">
@@ -55,7 +64,7 @@ function productCard(p, category, showCategory) {
 
 function renderLayout() {
   const header = `<header><nav class="wrap nav">
-    <a href="index.html" class="logo">${icon("i-gift")}${esc(SHOP.name)}</a>
+    <a href="index.html" class="logo" aria-label="${esc(SHOP.name)} home"><span class="wm">R${giftMark()}YAL</span><span class="wm-sub">GIFT HUB</span></a>
     <button class="menu-btn" aria-label="Open menu"><span></span><span></span><span></span></button>
     <ul id="menu">
       <li><a href="index.html#collections">Collections</a></li>
