@@ -244,9 +244,7 @@
     email: "royalgifthub61@gmail.com",
     address: "Shop No. 01, Habeeb Seth Complex, Tension Chowk, Malegaon, Maharashtra 423203",
     hours: "11:00 AM to 11:00 PM",
-    // Map stays hidden while empty. A place name here can pull in another place's rating card,
-    // so use the shop's exact "lat,long" pin or its own Google Business listing name once verified.
-    mapQuery: "",
+    mapQuery: "Tension Chowk, Malegaon, Maharashtra 423203",      // TODO: replace with shop's Google Maps listing once created
     instagram: "https://instagram.com/",                   // TODO: Instagram page, if any
     galleryCount: 6
   };
@@ -269,13 +267,7 @@
   document.querySelectorAll(".js-address").forEach(el => el.textContent = SHOP.address);
   document.querySelectorAll(".js-hours").forEach(el => el.textContent = SHOP.hours);
   document.querySelectorAll(".js-insta").forEach(a => a.href = SHOP.instagram);
-  const map = document.querySelector(".js-map");
-  if (SHOP.mapQuery) {
-    map.src = `https://maps.google.com/maps?q=${encodeURIComponent(SHOP.mapQuery)}&z=17&output=embed`;
-  } else {
-    map.remove();
-    document.querySelector(".visit-grid").style.gridTemplateColumns = "1fr";
-  }
+  document.querySelector(".js-map").src = `https://maps.google.com/maps?q=${encodeURIComponent(SHOP.mapQuery)}&output=embed`;
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const iconSvg = id => `<svg><use href="#${id}"/></svg>`;
