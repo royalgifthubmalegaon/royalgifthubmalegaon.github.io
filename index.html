@@ -18,10 +18,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
-<script src="assets/data.js"></script>
-<script src="assets/common.js"></script>
+<link rel="preload" as="image" type="image/webp" imagesrcset="images/shop-front-700.webp 700w, images/shop-front.webp 1400w" imagesizes="(max-width: 820px) 92vw, 480px" fetchpriority="high">
 </head>
 <body>
+<header id="site-header"></header>
 
 <main>
   <section class="hero" id="hero">
@@ -37,7 +37,7 @@
         <div class="names"><span>हर मौके के लिए खास तोहफ़ा</span><span lang="ur" dir="rtl">ہر موقع کے لیے خاص تحفہ</span></div>
       </div>
       <div class="hero-photo">
-        <img src="images/shop-front.jpg" alt="Royal Gift Hub shop front at Tension Chowk, Malegaon">
+        <picture><source type="image/webp" srcset="images/shop-front-700.webp 700w, images/shop-front.webp 1400w" sizes="(max-width: 820px) 92vw, 480px"><img src="images/shop-front-700.jpg" srcset="images/shop-front-700.jpg 700w, images/shop-front.jpg 1400w" sizes="(max-width: 820px) 92vw, 480px" width="700" height="572" fetchpriority="high" alt="Royal Gift Hub shop front at Tension Chowk, Malegaon"></picture>
         <span class="tag">Now open at Tension Chowk</span>
       </div>
     </div>
@@ -85,7 +85,7 @@
 
   <section id="shop" class="why">
     <div class="wrap about-grid">
-      <img class="reveal" src="images/shop-inside.jpg" alt="Inside Royal Gift Hub: calligraphy frames, gifts and decor on display" loading="lazy">
+      <picture class="reveal"><source srcset="images/shop-inside.webp" type="image/webp"><img src="images/shop-inside.jpg" alt="Inside Royal Gift Hub: calligraphy frames, gifts and decor on display" width="1400" height="484" loading="lazy"></picture>
       <div class="reveal">
         <span class="eyebrow">Our Shop</span>
         <h2>Up your gifting options with your choice</h2>
@@ -124,6 +124,8 @@
   </section>
 </main>
 
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
 <script>
   renderLayout();
   addSparkles(document.getElementById("hero"), 22);
@@ -133,7 +135,7 @@
     const count = c.products.length;
     return `<a class="cat reveal" href="category.html?c=${c.key}">
       ${count ? `<span class="count">${count} design${count > 1 ? "s" : ""}</span>` : ""}
-      <div class="thumb">${cover ? `<img src="${esc(cover.image)}" alt="${esc(c.title)}" loading="lazy">` : icon(c.icon)}</div>
+      <div class="thumb">${cover ? picture(cover.image, c.title) : icon(c.icon)}</div>
       <div class="body"><h3>${esc(c.title)}</h3><p>${esc(c.text)}</p><span class="more">View collection ${icon("i-arrow").replace("<svg", '<svg width="16" height="16"')}</span></div>
     </a>`;
   }).join("");

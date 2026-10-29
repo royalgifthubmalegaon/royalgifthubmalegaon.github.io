@@ -34,10 +34,16 @@ function waLink(message) {
   return `https://wa.me/${SHOP.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
+// <picture> with a WebP copy next to every .jpg (images are converted when added)
+function picture(src, alt, attrs = 'loading="lazy"') {
+  const webp = src.replace(/\.jpg$/, ".webp");
+  return `<picture><source srcset="${esc(webp)}" type="image/webp"><img src="${esc(src)}" alt="${esc(alt)}" ${attrs}></picture>`;
+}
+
 function productCard(p, category, showCategory) {
   const msg = `Hello ${SHOP.name}, I am interested in: ${p.name}. ${new URL(p.image, location.href).href}`;
   return `<article class="product reveal">
-    <div class="ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">${p.new ? '<span class="badge">NEW</span>' : ""}</div>
+    <div class="ph">${picture(p.image, p.name)}${p.new ? '<span class="badge">NEW</span>' : ""}</div>
     <div class="info">
       ${showCategory ? `<a class="cat-name" href="category.html?c=${category.key}">${esc(category.title)}</a>` : ""}
       <h3>${esc(p.name)}</h3>
@@ -60,7 +66,8 @@ function renderLayout() {
   const offer = SHOP.offer
     ? `<div class="offer">${esc(SHOP.offer)} <a href="${waLink()}" target="_blank" rel="noopener">Chat now</a></div>`
     : "";
-  document.body.insertAdjacentHTML("afterbegin", offer + header);
+  const slot = document.getElementById("site-header");
+  if (slot) slot.outerHTML = offer + header; else document.body.insertAdjacentHTML("afterbegin", offer + header);
   const menu = document.getElementById("menu");
   document.querySelector(".menu-btn").onclick = () => menu.classList.toggle("open");
   menu.onclick = () => menu.classList.remove("open");
@@ -69,7 +76,7 @@ function renderLayout() {
   document.body.insertAdjacentHTML("beforeend", `<footer>
     <div class="wrap foot-grid">
       <div>
-        <h4>${esc(SHOP.name)}</h4>
+        <h2 class="foot-title">${esc(SHOP.name)}</h2>
         <p class="names">${esc(SHOP.nameHindi)} &nbsp;·&nbsp; <span lang="ur" dir="rtl">${esc(SHOP.nameUrdu)}</span></p>
         <div class="foot-row">${icon("i-pin")}<span>${esc(SHOP.address)}</span></div>
         <div class="foot-row">${icon("i-clock")}<span>${esc(SHOP.hours)}</span></div>
@@ -77,11 +84,11 @@ function renderLayout() {
         <div class="foot-row">${icon("i-mail")}<a href="mailto:${esc(SHOP.email)}">${esc(SHOP.email)}</a></div>
       </div>
       <div>
-        <h4>Collections</h4>
+        <h2 class="foot-title">Collections</h2>
         <ul>${CATEGORIES.map(c => `<li><a href="category.html?c=${c.key}">${esc(c.title)}</a></li>`).join("")}</ul>
       </div>
       <div>
-        <h4>Quick Links</h4>
+        <h2 class="foot-title">Quick Links</h2>
         <ul>
           <li><a href="index.html#new">New Arrivals</a></li>
           <li><a href="index.html#shop">Our Shop</a></li>
