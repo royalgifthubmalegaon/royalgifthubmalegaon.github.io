@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collections | Royal Gift Hub, Malegaon</title>
+<meta name="description" content="Browse gift collections at Royal Gift Hub, Malegaon and enquire on WhatsApp.">
+<meta property="og:image" content="https://royalgifthubmalegaon.github.io/images/og.jpg">
+<meta name="theme-color" content="#556b2f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/data.js"></script>
+<script src="assets/common.js"></script>
+</head>
+<body>
+
+<main>
+  <section class="page-hero" id="page-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#collections">Collections</a></div>
+      <h1 id="c-title"></h1>
+      <p id="c-text"></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="products" id="c-products"></div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">More to explore</span>
+        <h2>Other collections</h2>
+      </div>
+      <div class="other-cats" id="c-others"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+  renderLayout();
+  addSparkles(document.getElementById("page-hero"), 14);
+
+  const key = new URLSearchParams(location.search).get("c");
+  const cat = CATEGORIES.find(c => c.key === key) || CATEGORIES[0];
+  document.title = `${cat.title} | ${SHOP.name}, Malegaon`;
+  document.getElementById("c-title").textContent = cat.title;
+  document.getElementById("c-text").textContent = cat.text;
+
+  const list = document.getElementById("c-products");
+  if (cat.products.length) {
+    list.innerHTML = cat.products.map(p => productCard(p, cat, false)).join("");
+  } else {
+    list.outerHTML = `<div class="empty">
+      ${icon(cat.icon)}
+      <h3>New designs coming soon</h3>
+      <p>We are adding photos of this collection. Message us on WhatsApp and we will send you the latest designs and prices.</p>
+      <a class="btn btn-wa" href="${waLink(`Hello ${SHOP.name}, please share designs for ${cat.title}.`)}" target="_blank" rel="noopener">${icon("i-wa")}Ask for designs on WhatsApp</a>
+    </div>`;
+  }
+
+  document.getElementById("c-others").innerHTML = CATEGORIES.filter(c => c !== cat)
+    .map(c => `<a class="btn btn-ghost btn-sm" href="category.html?c=${c.key}">${esc(c.title)}</a>`).join("");
+
+  revealOnScroll();
+</script>
+</body>
+</html>
