@@ -12,8 +12,9 @@ const SHOP = {
   address: "Shop No. 01, Habeeb Seth Complex, Tension Chowk, Malegaon, Maharashtra 423203",
   hours: "11:00 AM to 11:00 PM",
   mapQuery: "Tension Chowk, Malegaon, Maharashtra 423203", // TODO: replace with shop's Google Maps listing once created
+  siteUrl: "https://royalgifthubmalegaon.github.io/", // TODO: change to the new domain once bought
   instagram: "",                            // TODO: Instagram page, if any (hidden while empty)
-  offer: "Wedding season special: customised gifts, trophies & hampers. Order on WhatsApp!" // top banner; "" hides it
+  offer: "",                                // top banner text, e.g. a real festival offer; "" hides it
 };
 
 const CATEGORIES = [

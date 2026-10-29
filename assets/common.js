@@ -65,15 +65,48 @@ function renderLayout() {
   document.querySelector(".menu-btn").onclick = () => menu.classList.toggle("open");
   menu.onclick = () => menu.classList.remove("open");
 
+  const tel = SHOP.phone.replace(/\s/g, "");
   document.body.insertAdjacentHTML("beforeend", `<footer>
-    <div class="social">
-      ${SHOP.instagram ? `<a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener" aria-label="Instagram" style="width:22px;display:block">${icon("i-insta")}</a>` : ""}
-      <a href="${waLink()}" target="_blank" rel="noopener" aria-label="WhatsApp" style="width:22px;display:block">${icon("i-wa")}</a>
+    <div class="wrap foot-grid">
+      <div>
+        <h4>${esc(SHOP.name)}</h4>
+        <p class="names">${esc(SHOP.nameHindi)} &nbsp;·&nbsp; <span lang="ur" dir="rtl">${esc(SHOP.nameUrdu)}</span></p>
+        <div class="foot-row">${icon("i-pin")}<span>${esc(SHOP.address)}</span></div>
+        <div class="foot-row">${icon("i-clock")}<span>${esc(SHOP.hours)}</span></div>
+        <div class="foot-row">${icon("i-phone")}<a href="tel:${tel}">${esc(SHOP.phone)}</a></div>
+        <div class="foot-row">${icon("i-mail")}<a href="mailto:${esc(SHOP.email)}">${esc(SHOP.email)}</a></div>
+      </div>
+      <div>
+        <h4>Collections</h4>
+        <ul>${CATEGORIES.map(c => `<li><a href="category.html?c=${c.key}">${esc(c.title)}</a></li>`).join("")}</ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html#new">New Arrivals</a></li>
+          <li><a href="index.html#shop">Our Shop</a></li>
+          <li><a href="index.html#visit">Visit Us</a></li>
+          <li><a href="${waLink()}" target="_blank" rel="noopener">Order on WhatsApp</a></li>
+          ${SHOP.instagram ? `<li><a href="${esc(SHOP.instagram)}" target="_blank" rel="noopener">Instagram</a></li>` : ""}
+        </ul>
+      </div>
     </div>
-    <p class="names">${esc(SHOP.nameHindi)} &nbsp;·&nbsp; <span lang="ur" dir="rtl">${esc(SHOP.nameUrdu)}</span></p>
-    <p>&copy; ${new Date().getFullYear()} ${esc(SHOP.name)}, Malegaon. All rights reserved.</p>
+    <p class="copy">&copy; ${new Date().getFullYear()} ${esc(SHOP.name)}, Malegaon. All rights reserved.</p>
   </footer>
   <a class="wa-float" href="${waLink()}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${icon("i-wa")}</a>`);
+
+  const ld = document.createElement("script");
+  ld.type = "application/ld+json";
+  ld.textContent = JSON.stringify({
+    "@context": "https://schema.org", "@type": "Store",
+    name: SHOP.name, url: SHOP.siteUrl, image: SHOP.siteUrl + "images/og.jpg",
+    telephone: tel, email: SHOP.email,
+    address: { "@type": "PostalAddress", streetAddress: "Shop No. 01, Habeeb Seth Complex, Tension Chowk",
+      addressLocality: "Malegaon", addressRegion: "Maharashtra", postalCode: "423203", addressCountry: "IN" },
+    openingHoursSpecification: [{ "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "11:00", closes: "23:00" }]
+  });
+  document.head.appendChild(ld);
 
   document.querySelectorAll("[data-icon]").forEach(el => el.innerHTML = icon(el.dataset.icon));
   document.querySelectorAll(".js-wa").forEach(a => a.href = waLink());
